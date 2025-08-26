@@ -1,0 +1,28 @@
+<button (click)="addEmployee()">Add Employee</button>
+
+<table *ngIf="employees.length > 0">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Mobile</th>
+    <th>Address</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let emp of employees">
+    <td>{{ emp.firstName }}</td>
+    <td>{{ emp.lastName }}</td>
+    <td>{{ emp.mobile }}</td>
+    <td>{{ emp.address }}</td>
+    <td>
+      <button (click)="editEmployee(emp)">Edit</button>
+      <button (click)="deleteEmployee(emp.id)">Delete</button>
+    </td>
+  </tr>
+</table>
+
+<app-employee-form
+  *ngIf="showForm"
+  [employee]="selectedEmployee"
+  (save)="onSave($event)"
+  (cancel)="onCancel()"
+></app-employee-form>
