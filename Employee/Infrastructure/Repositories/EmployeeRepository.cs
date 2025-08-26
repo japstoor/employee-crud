@@ -25,7 +25,6 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                // Log exception here
                 throw new Exception("Error fetching all employees", ex);
             }
         }
@@ -50,11 +49,6 @@ namespace Infrastructure.Repositories
                 await _context.SaveChangesAsync();
                 return employee;
             }
-            catch (DbUpdateException dbEx)
-            {
-                // Handle database update exceptions specifically
-                throw new Exception("Error adding new employee to the database", dbEx);
-            }
             catch (Exception ex)
             {
                 throw new Exception("Unexpected error adding new employee", ex);
@@ -67,14 +61,6 @@ namespace Infrastructure.Repositories
             {
                 _context.Employees.Update(employee);
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                throw new Exception($"Concurrency error updating employee with ID {employee.Id}", ex);
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new Exception($"Database error updating employee with ID {employee.Id}", ex);
             }
             catch (Exception ex)
             {
@@ -94,12 +80,8 @@ namespace Infrastructure.Repositories
                 }
                 else
                 {
-                    throw new KeyNotFoundException($"Employee with ID {id} not found");
+                    throw new Exception($"Employee with ID {id} not found");
                 }
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new Exception($"Database error deleting employee with ID {id}", ex);
             }
             catch (Exception ex)
             {
